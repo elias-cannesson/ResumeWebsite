@@ -28,6 +28,15 @@ export class S3Stack extends cdk.Stack {
         new cdk.CfnOutput(this, 'websiteBucketArn' + stageName, {
             value: bucket.bucketArn
         });
+
+        // Create origin access identity for cloudfront
+        const originAccessIdentity = new OriginAccessIdentity(this, 'originAccessIdentity', {
+            comment: 'Give cloudfront unrestricted read only access to website bucket'
+        })
+        bucket.grantRead(originAccessIdentity)
+
+        // set up domain and certificate
+        // const certificate = Certificate.fromCertificateArn(this, 'ResumeWebsiteCertificate', website_cert_arn);
     
     }
 }
