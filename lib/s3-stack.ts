@@ -10,14 +10,14 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as path from 'path';
 import { HttpsRedirect } from 'aws-cdk-lib/aws-route53-patterns';
 
+import { website_domain, website_cert_arn } from './global_variables';
+
 export class S3Stack extends cdk.Stack {
     constructor(scope: Construct, id: string, stageName: string, props: cdk.StackProps) {
     super(scope, id, {
       synthesizer: new cdk.DefaultStackSynthesizer(), // Explicitly use the DefaultStackSynthesizer
       ...props,
     });
-
-        const website_domain = "ecannesson.com"
 
         // S3 Bucket for React website
         const bucket = new Bucket(this, 'websiteBucket' + stageName, {
