@@ -1,6 +1,6 @@
 import { Stack, StackProps, CfnOutput } from "aws-cdk-lib"
 import { Construct } from "constructs"
-import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
+import { Certificate, CertificateValidation, DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { DefaultStackSynthesizer } from "aws-cdk-lib";
 import { website_domain } from './global_variables';
@@ -14,10 +14,16 @@ export class CertificateStack extends Stack {
             zoneName: website_domain
         })
 
-        const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
-            domainName: 'ecannesson.com',
-            validation: CertificateValidation.fromDns(hostedZone),
-        });
+        const websiteCertificate = new DnsValidatedCertificate(this, 'WebsiteSSL', {
+            domainName: website_domain,
+            region: 'us-east-1',
+            hostedZone
+        })
+        
+        // const websiteCertificate = new D(this, 'WebsiteSSL', {
+        //     domainName: 'ecannesson.com',
+        //     validation: CertificateValidation.fromDns(hostedZone),
+        // });
 
         const websiteCertArn = websiteCertificate.certificateArn;
 
