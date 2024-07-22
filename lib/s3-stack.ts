@@ -77,7 +77,7 @@ export class S3Stack extends cdk.Stack {
         // });
 
         const repo = new Repository(this, 'ResumeWebsiteSource', {
-            repositoryName: 'ResumeWebsiteGit',
+            repositoryName: 'resume-website-git-repo',
             description: `React repo for ${website_domain}`
         });
 
