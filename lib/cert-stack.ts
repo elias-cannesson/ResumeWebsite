@@ -14,16 +14,16 @@ export class CertificateStack extends Stack {
             zoneName: website_domain
         })
 
-        // const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
-        //     domainName: 'ecannesson.com',
-        //     validation: CertificateValidation.fromDns(hostedZone),
-        // });
+        const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
+            domainName: 'ecannesson.com',
+            validation: CertificateValidation.fromDns(hostedZone),
+        });
 
-        // const websiteCertArn = websiteCertificate.certificateArn;
+        const websiteCertArn = websiteCertificate.certificateArn;
 
-        // new CfnOutput(this, 'WebsiteCertArn', {
-        //     value: websiteCertArn
-        // })
+        new CfnOutput(this, 'WebsiteCertArn', {
+            value: websiteCertArn
+        })
 
       }
 }
