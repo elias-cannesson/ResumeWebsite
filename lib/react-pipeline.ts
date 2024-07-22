@@ -18,7 +18,7 @@ export class ReactPipelineStack extends Stack {
         const websiteBucket = Bucket.fromBucketArn(this, 'websiteBucket', website_bucket_arn);
 
         const reactBuildProject = new PipelineProject(this, 'ResumeWebsiteReactBuild', {
-            buildSpec: BuildSpec.fromSourceFilename('buildspec.yml'),
+            buildSpec: BuildSpec.fromSourceFilename('resume-website-git-repo/buildspec.yml'),
             environment: {
                 buildImage: LinuxBuildImage.STANDARD_5_0,
                 computeType: ComputeType.SMALL
