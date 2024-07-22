@@ -18,7 +18,7 @@ export class ReactPipelineStack extends Stack {
         const websiteBucket = Bucket.fromBucketArn(this, 'websiteBucket', website_bucket_arn);
 
         const reactBuildProject = new PipelineProject(this, 'ResumeWebsiteReactBuild', {
-            buildSpec: BuildSpec.fromSourceFilename('resume-website-git-repo/buildspec.yml'),
+            buildSpec: BuildSpec.fromSourceFilename('buildspec.yml'),
             environment: {
                 buildImage: LinuxBuildImage.STANDARD_5_0,
                 computeType: ComputeType.SMALL
@@ -28,15 +28,15 @@ export class ReactPipelineStack extends Stack {
         const artifactBucket = new Bucket(this, 'ResumeReactPipelineArtifactBucket', {
             bucketName: 'resume-react-pipeline-artifact-bucket',
             removalPolicy: RemovalPolicy.DESTROY
-        })
+        });
         
-        const gitOutput = new Artifact('ResumeWebsiteReactBuildLatestMaster')
+        const gitOutput = new Artifact('ResumeWebsiteReactBuildLatestMaster');
         
-        const buildOutput = new Artifact('ResumeWebsiteReactBuildOutput')
+        const buildOutput = new Artifact('ResumeWebsiteReactBuildOutput');
 
         new Pipeline(this, 'reactPipeline', {
             artifactBucket,
-            pipelineName: 'ResumeWebsite-reactPipeline',
+            pipelineName: 'ResumeWebsite-ReactPipeline',
             stages: [
                 {
                     stageName: 'source',

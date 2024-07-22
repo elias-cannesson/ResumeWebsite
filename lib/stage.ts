@@ -4,6 +4,7 @@ import { Construct } from 'constructs';
 // Stack imports
 import { CertificateStack } from './cert-stack';
 import { S3Stack } from './s3-stack';
+import { ReactPipelineStack } from './react-pipeline';
 
 export class PipelineAppStage extends cdk.Stage {
 
@@ -16,6 +17,10 @@ export class PipelineAppStage extends cdk.Stage {
 
         const s3Stack = new S3Stack(this, 'ResumeWebsiteS3Stack', stageName, {
             crossRegionReferences: true
+        });
+
+        const reactPipelineStack = new ReactPipelineStack(this, 'ResumeWebsiteReactPipelineStack', stageName, {
+            crossRegionReferences: true   
         });
 
     }
