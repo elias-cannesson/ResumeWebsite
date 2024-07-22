@@ -36,7 +36,7 @@ export class ReactPipelineStack extends Stack {
 
         new Pipeline(this, 'reactPipeline', {
             artifactBucket,
-            pipelineName: 'ResumeWebsite-React-Pipeline',
+            pipelineName: 'ResumeWebsite-reactPipeline',
             stages: [
                 {
                     stageName: 'source',
