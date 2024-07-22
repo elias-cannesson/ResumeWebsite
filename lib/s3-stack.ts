@@ -5,10 +5,11 @@ import { Repository } from 'aws-cdk-lib/aws-codecommit';
 import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone, ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
-import { AllowedMethods, CachePolicy, ViewerProtocolPolicy, CloudFrontWebDistribution, Distribution, HttpVersion, OriginAccessIdentity, PriceClass, ViewerCertificate, SecurityPolicyProtocol, SSLMethod } from 'aws-cdk-lib/aws-cloudfront';
-import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import * as path from 'path';
+import { CloudFrontWebDistribution, OriginAccessIdentity, PriceClass, ViewerCertificate, SecurityPolicyProtocol } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpsRedirect } from 'aws-cdk-lib/aws-route53-patterns';
+// import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
+// import * as path from 'path';
+
 
 import { website_domain, website_cert_arn, hosted_zone_id } from './global_variables';
 
@@ -32,8 +33,8 @@ export class S3Stack extends cdk.Stack {
         // Create origin access identity for cloudfront
         const originAccessIdentity = new OriginAccessIdentity(this, 'originAccessIdentity', {
             comment: 'Give cloudfront unrestricted read only access to website bucket'
-        })
-        bucket.grantRead(originAccessIdentity)
+        });
+        bucket.grantRead(originAccessIdentity);
 
         // set up domain and certificate and distribution
         const certificate = Certificate.fromCertificateArn(this, 'ResumeWebsiteCertificate', website_cert_arn);
@@ -53,19 +54,36 @@ export class S3Stack extends cdk.Stack {
                 aliases: [website_domain],
                 securityPolicy: SecurityPolicyProtocol.TLS_V1_2_2021
             })
-        })
+        });
 
         // Serve website from Cloudfront domain. Point its domain to the cloudfront domain
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZoneWithAttrs', {
             hostedZoneId: hosted_zone_id,
             zoneName: website_domain
-        })
+        });
 
         new ARecord(this, 'aliasForCloudfront', {
             target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
             zone: hostedZone,
             recordName: website_domain
-        })
+        });
+
+
+        // www to non-www redirect + creation of codecommit repo for saving react website app
+        new HttpsRedirect(this, 'wwwToNonWwww', {
+            recordNames: ['www.ecannesson.com'],
+            targetDomain: website_domain,
+            zone: hostedZone
+        });
+
+        const repo = new Repository(this, 'ResumeWebsiteSource', {
+            repositoryName: 'ResumeWebsiteGit',
+            description: `React repo for ${website_domain}`
+        });
+
+        new cdk.CfnOutput(this, 'reactRepoArn' + "-" + stageName, {
+            value: repo.repositoryArn
+        });
     
     }
 }
