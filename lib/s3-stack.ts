@@ -70,11 +70,11 @@ export class S3Stack extends cdk.Stack {
 
 
         // www to non-www redirect + creation of codecommit repo for saving react website app
-        new HttpsRedirect(this, 'wwwToNonWwww', {
-            recordNames: ['www.ecannesson.com'],
-            targetDomain: website_domain,
-            zone: hostedZone
-        });
+        // new HttpsRedirect(this, 'wwwToNonWwww-' + stageName, {
+        //     recordNames: ['www.ecannesson.com'],
+        //     targetDomain: website_domain,
+        //     zone: hostedZone
+        // });
 
         const repo = new Repository(this, 'ResumeWebsiteSource', {
             repositoryName: 'ResumeWebsiteGit',
