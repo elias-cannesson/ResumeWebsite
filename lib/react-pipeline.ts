@@ -44,7 +44,8 @@ export class ReactPipelineStack extends Stack {
                         new CodeCommitSourceAction({
                             actionName: 'readLatestMasterCommit',
                             output: gitOutput,
-                            repository: Repository.fromRepositoryArn(this, 'reactGitRepo', react_repo_arn)
+                            repository: Repository.fromRepositoryArn(this, 'reactGitRepo', react_repo_arn),
+                            branch: 'master'
                         })
                     ]
                 },
