@@ -10,20 +10,20 @@ export class CertificateStack extends Stack {
         super(scope, id, props);
 
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZoneWithAttrs', {
-            hostedZoneId: "Z02920461595SR9606W7W",
+            hostedZoneId: "Z03704531OX9ZC1LKTCWX",
             zoneName: website_domain
         })
 
-        const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
-            domainName: 'ecannesson.com',
-            validation: CertificateValidation.fromDns(hostedZone)
-        });
+        // const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
+        //     domainName: 'ecannesson.com',
+        //     validation: CertificateValidation.fromDns(hostedZone),
+        // });
 
-        const websiteCertArn = websiteCertificate.certificateArn;
+        // const websiteCertArn = websiteCertificate.certificateArn;
 
-        new CfnOutput(this, 'WebsiteCertArn', {
-            value: websiteCertArn
-        })
+        // new CfnOutput(this, 'WebsiteCertArn', {
+        //     value: websiteCertArn
+        // })
 
       }
 }

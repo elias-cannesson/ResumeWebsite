@@ -36,24 +36,30 @@ export class S3Stack extends cdk.Stack {
         bucket.grantRead(originAccessIdentity)
 
         // set up domain and certificate and distribution
-        const certificate = Certificate.fromCertificateArn(this, 'ResumeWebsiteCertificate', website_cert_arn);
+        // const certificate = Certificate.fromCertificateArn(this, 'ResumeWebsiteCertificate', website_cert_arn);
 
-        const distribution = new CloudFrontWebDistribution(this, 'cloudfrontWebDistribution-' + stageName, {
-            priceClass: PriceClass.PRICE_CLASS_ALL,
-            originConfigs: [{
-                s3OriginSource: {
-                    s3BucketSource: bucket,
-                    originAccessIdentity
-                },
-                behaviors: [{
-                    isDefaultBehavior: true
-                }]
-            }],
-            viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
-                aliases: [website_domain],
-                securityPolicy: SecurityPolicyProtocol.TLS_V1_2_2021
-            })
-        })
+        // const distribution = new CloudFrontWebDistribution(this, 'cloudfrontWebDistribution-' + stageName, {
+        //     priceClass: PriceClass.PRICE_CLASS_ALL,
+        //     originConfigs: [{
+        //         s3OriginSource: {
+        //             s3BucketSource: bucket,
+        //             originAccessIdentity
+        //         },
+        //         behaviors: [{
+        //             isDefaultBehavior: true
+        //         }]
+        //     }],
+        //     viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
+        //         aliases: [website_domain],
+        //         securityPolicy: SecurityPolicyProtocol.TLS_V1_2_2021
+        //     })
+        // })
+
+        // Serve website from Cloudfront domain. Point its domain to the cloudfront domain
+        // const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hostedZoneWithAttrs', {
+        //     hostedZoneId: "Z02920461595SR9606W7W",
+        //     zoneName: website_domain
+        // })
     
     }
 }
