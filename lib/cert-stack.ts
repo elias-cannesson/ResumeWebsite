@@ -7,7 +7,10 @@ import { website_domain, hosted_zone_id } from './global_variables';
 
 export class CertificateStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
-        super(scope, id, props);
+        super(scope, id, {
+            synthesizer: new DefaultStackSynthesizer(),
+            ...props,
+        });
 
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZoneWithAttrs', {
             hostedZoneId: hosted_zone_id,
