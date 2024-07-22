@@ -10,7 +10,7 @@ import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as path from 'path';
 import { HttpsRedirect } from 'aws-cdk-lib/aws-route53-patterns';
 
-import { website_domain, website_cert_arn } from './global_variables';
+import { website_domain, website_cert_arn, hosted_zone_id } from './global_variables';
 
 export class S3Stack extends cdk.Stack {
     constructor(scope: Construct, id: string, stageName: string, props: cdk.StackProps) {
@@ -56,10 +56,16 @@ export class S3Stack extends cdk.Stack {
         })
 
         // Serve website from Cloudfront domain. Point its domain to the cloudfront domain
-        // const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'hostedZoneWithAttrs', {
-        //     hostedZoneId: "Z02920461595SR9606W7W",
-        //     zoneName: website_domain
-        // })
+        const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZoneWithAttrs', {
+            hostedZoneId: hosted_zone_id,
+            zoneName: website_domain
+        })
+
+        new ARecord(this, 'aliasForCloudfront', {
+            target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
+            zone: hostedZone,
+            recordName: website_domain
+        })
     
     }
 }

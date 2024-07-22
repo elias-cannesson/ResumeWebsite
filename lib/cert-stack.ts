@@ -3,14 +3,14 @@ import { Construct } from "constructs"
 import { Certificate, CertificateValidation, DnsValidatedCertificate } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone } from 'aws-cdk-lib/aws-route53';
 import { DefaultStackSynthesizer } from "aws-cdk-lib";
-import { website_domain } from './global_variables';
+import { website_domain, hosted_zone_id } from './global_variables';
 
 export class CertificateStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
         super(scope, id, props);
 
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZoneWithAttrs', {
-            hostedZoneId: "Z03704531OX9ZC1LKTCWX",
+            hostedZoneId: hosted_zone_id,
             zoneName: website_domain
         })
 
