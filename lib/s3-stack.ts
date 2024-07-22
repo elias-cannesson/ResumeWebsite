@@ -23,7 +23,7 @@ export class S3Stack extends cdk.Stack {
         // S3 Bucket for React website
         const bucket = new Bucket(this, 'websiteBucket' + stageName, {
             removalPolicy: cdk.RemovalPolicy.DESTROY,
-            bucketName: website_domain
+            bucketName: 'www.' + website_domain
         });
 
         new cdk.CfnOutput(this, 'websiteBucketArn' + stageName, {
