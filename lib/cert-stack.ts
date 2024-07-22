@@ -20,7 +20,7 @@ export class CertificateStack extends Stack {
             hostedZone
         })
         
-        // const websiteCertificate = new D(this, 'WebsiteSSL', {
+        // const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
         //     domainName: 'ecannesson.com',
         //     validation: CertificateValidation.fromDns(hostedZone),
         // });
