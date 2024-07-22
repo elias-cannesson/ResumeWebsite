@@ -35,8 +35,25 @@ export class S3Stack extends cdk.Stack {
         })
         bucket.grantRead(originAccessIdentity)
 
-        // set up domain and certificate
-        // const certificate = Certificate.fromCertificateArn(this, 'ResumeWebsiteCertificate', website_cert_arn);
+        // set up domain and certificate and distribution
+        const certificate = Certificate.fromCertificateArn(this, 'ResumeWebsiteCertificate', website_cert_arn);
+
+        const distribution = new CloudFrontWebDistribution(this, 'cloudfrontWebDistribution-' + stageName, {
+            priceClass: PriceClass.PRICE_CLASS_ALL,
+            originConfigs: [{
+                s3OriginSource: {
+                    s3BucketSource: bucket,
+                    originAccessIdentity
+                },
+                behaviors: [{
+                    isDefaultBehavior: true
+                }]
+            }],
+            viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
+                aliases: [website_domain],
+                securityPolicy: SecurityPolicyProtocol.TLS_V1_2_2021
+            })
+        })
     
     }
 }
