@@ -16,14 +16,14 @@ import { website_domain, website_cert_arn, hosted_zone_id } from './global_varia
 export class S3Stack extends cdk.Stack {
     constructor(scope: Construct, id: string, stageName: string, props: cdk.StackProps) {
     super(scope, id, {
-      synthesizer: new cdk.DefaultStackSynthesizer(), // Explicitly use the DefaultStackSynthesizer
+      synthesizer: new cdk.DefaultStackSynthesizer({}), // Explicitly use the DefaultStackSynthesizer
       ...props,
     });
 
         // S3 Bucket for React website
         const bucket = new Bucket(this, 'websiteBucket' + stageName, {
             removalPolicy: cdk.RemovalPolicy.DESTROY,
-            bucketName: website_domain + "-" + stageName
+            bucketName: website_domain
         });
 
         new cdk.CfnOutput(this, 'websiteBucketArn' + stageName, {
@@ -70,7 +70,7 @@ export class S3Stack extends cdk.Stack {
 
 
         // www to non-www redirect + creation of codecommit repo for saving react website app
-        // new HttpsRedirect(this, 'wwwToNonWwww-' + stageName, {
+        // new HttpsRedirect(scope=this, 'wwwToNonWwww-' + stageName, {
         //     recordNames: ['www.ecannesson.com'],
         //     targetDomain: website_domain,
         //     zone: hostedZone
