@@ -13,7 +13,17 @@ export class CertificateStack extends Stack {
             hostedZoneId: "Z02920461595SR9606W7W",
             zoneName: website_domain
         })
-    
+
+        const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
+            domainName: 'ecannesson.com',
+            validation: CertificateValidation.fromDns(hostedZone)
+        });
+
+        const websiteCertArn = websiteCertificate.certificateArn;
+
+        new CfnOutput(this, 'WebsiteCertArn', {
+            value: websiteCertArn
+        })
 
       }
 }
