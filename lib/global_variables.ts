@@ -6,4 +6,4 @@ export const website_bucket_arn = "arn:aws:s3:::ecannesson.com-deployment";
 
 export const hosted_zone_id = "Z03704531OX9ZC1LKTCWX";
 
-export const react_repo_arn = "arn:aws:codecommit:us-west-2:654654597644:ResumeWebsiteGit";
+export const react_repo_arn = "arn:aws:codecommit:us-west-2:654654597644:resume-website-git-repo";
