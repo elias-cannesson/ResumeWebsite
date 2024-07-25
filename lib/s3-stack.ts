@@ -5,7 +5,7 @@ import { Repository } from 'aws-cdk-lib/aws-codecommit';
 import { Certificate, CertificateValidation } from 'aws-cdk-lib/aws-certificatemanager';
 import { HostedZone, ARecord, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
-import { CloudFrontWebDistribution, OriginAccessIdentity, PriceClass, ViewerCertificate, SecurityPolicyProtocol, SSLMethod } from 'aws-cdk-lib/aws-cloudfront';
+import { CloudFrontWebDistribution, OriginAccessIdentity, PriceClass, ViewerCertificate, SecurityPolicyProtocol, SSLMethod, ViewerProtocolPolicy} from 'aws-cdk-lib/aws-cloudfront';
 import { HttpsRedirect } from 'aws-cdk-lib/aws-route53-patterns';
 // import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 // import * as path from 'path';
@@ -47,7 +47,8 @@ export class S3Stack extends cdk.Stack {
                     originAccessIdentity
                 },
                 behaviors: [{
-                    isDefaultBehavior: true
+                    isDefaultBehavior: true,
+                    viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS 
                 }]
             }],
             viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
