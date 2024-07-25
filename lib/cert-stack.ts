@@ -15,18 +15,13 @@ export class CertificateStack extends Stack {
         const hostedZone = HostedZone.fromHostedZoneAttributes(this, 'HostedZoneWithAttrs', {
             hostedZoneId: hosted_zone_id,
             zoneName: website_domain
-        })
+        });
 
         const websiteCertificate = new DnsValidatedCertificate(this, 'WebsiteSSL', {
             domainName: website_domain,
             region: 'us-east-1',
             hostedZone
-        })
-        
-        // const websiteCertificate = new Certificate(this, 'WebsiteSSL', {
-        //     domainName: 'ecannesson.com',
-        //     validation: CertificateValidation.fromDns(hostedZone),
-        // });
+        });
 
         const websiteCertArn = websiteCertificate.certificateArn;
 

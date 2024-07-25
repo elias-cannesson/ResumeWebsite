@@ -36,6 +36,10 @@ export class S3Stack extends cdk.Stack {
         });
         bucket.grantRead(originAccessIdentity);
 
+        new cdk.CfnOutput(this, "originAccessID", {
+            value: originAccessIdentity.originAccessIdentityId
+        });
+
         // set up domain and certificate and distribution
         const certificate = Certificate.fromCertificateArn(this, 'ResumeWebsiteCertificate', website_cert_arn);
 
