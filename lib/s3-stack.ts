@@ -52,11 +52,12 @@ export class S3Stack extends cdk.Stack {
                 },
                 behaviors: [{
                     isDefaultBehavior: true,
-                    viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS
+                    viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+                    maxTtl: cdk.Duration.seconds(20)
                 }]
             }],
             viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
-                aliases: [website_domain],
+                aliases: [website_domain, 'www.' + website_domain],
                 securityPolicy: SecurityPolicyProtocol.TLS_V1_2_2021, // default
                 sslMethod: SSLMethod.SNI
             })
@@ -72,6 +73,13 @@ export class S3Stack extends cdk.Stack {
             target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
             zone: hostedZone,
             recordName: website_domain
+        });
+
+        // another new ARecord
+        new ARecord(this, 'aliasForCloudfront2', {
+            target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
+            zone: hostedZone,
+            recordName: "www." + website_domain
         });
 
 
