@@ -75,7 +75,7 @@ export class S3Stack extends cdk.Stack {
             recordName: website_domain
         });
 
-        // another new ARecord
+        // another new ARecord, this time for wwww
         new ARecord(this, 'aliasForCloudfront2', {
             target: RecordTarget.fromAlias(new CloudFrontTarget(distribution)),
             zone: hostedZone,
