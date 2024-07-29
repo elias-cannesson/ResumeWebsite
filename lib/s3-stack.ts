@@ -57,7 +57,7 @@ export class S3Stack extends cdk.Stack {
                 }]
             }],
             viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
-                aliases: [website_domain, 'www.' + website_domain],
+                aliases: [website_domain],
                 securityPolicy: SecurityPolicyProtocol.TLS_V1_2_2021, // default
                 sslMethod: SSLMethod.SNI
             })
