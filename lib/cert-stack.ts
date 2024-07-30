@@ -18,7 +18,8 @@ export class CertificateStack extends Stack {
         });
 
         const websiteCertificate = new DnsValidatedCertificate(this, 'WebsiteSSL', {
-            domainName: "*." + website_domain, // trying to see if we can attach www. and non-www. domain names to this certificate
+            domainName: website_domain, // trying to see if we can attach www. and non-www. domain names to this certificate
+            subjectAlternativeNames: [`www.${website_domain}`],
             region: 'us-east-1',
             hostedZone
         });
