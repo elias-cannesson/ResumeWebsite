@@ -1,6 +1,6 @@
 export const website_domain = "ecannesson.com";
 
-export const website_cert_arn = "arn:aws:acm:us-east-1:654654597644:certificate/1822b68a-2e15-4f23-a95e-23d6edfb92e4";
+export const website_cert_arn = "arn:aws:acm:us-east-1:654654597644:certificate/49226e7c-ac03-4ca2-b78d-d1c62b8b30be";
 
 export const website_bucket_arn = "arn:aws:s3:::www.ecannesson.com";
 
